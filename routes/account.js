@@ -35,37 +35,42 @@ router.post('/signup', async(req, res) => {
 });
 
 //로그인
-router.get('/signin', async(req, res) => {
+router.post('/signin', async(req, res) => {
     const { email, pw } = req.body;
     if (!email || !pw) {
         return res.status(statusCode.BAD_REQUEST).send(messageCode.MISS_DATA);
     } // 클라이언트 측에서 누락된 정보가 있는 경우.
 
     const sql = `SELECT * FROM User WHERE User.email = "${email}"`; 
-    connection.query(sql, function(err, result) {
-        var resultCode = statusCode.MATCH_ERR;
-        var message = messageCode.INVALID_USER;
+    connection.query(sql, function (err, rows, fields) {
         if (err) {
             console.log(err);
-            return res.status(resultCode).send(message);
-        } else {
-            const match =bcrypt.compare(pw, result[0].pw);
-            if (result.length === 0) {
-                return res.status(resultCode).send(message);
+            return res.status(statusCode.NOT_FOUND).send(messageCode.REQUEST_FAIL);
+        }
+        else {
+            if (rows.length === 0) {
+                return res.status(statusCode.MATCH_ERR).send(messageCode.INVALID_USER);
             }
-            else if (!match) {
-                return res.status(resultCode).send(messageCode.INVALID_PW);
-            } 
-            else {
-                var token = jwt.sign({email : email}, process.env.JWT_SECRET);
-                return res.status(statusCode.SUCCESS).json({
-                    code: statusCode.SUCCESS,
-                    message: messageCode.SIGN_IN_SUCCESS,
-                    userIdx : result[0].id,
-                    token: token
-                });
+            else { 
+                const match = bcrypt.compare(pw, rows[0].pw);
+                if (!match) {
+                    return res.status(statusCode.MATCH_ERR).send(messageCode.INVALID_PW);
+                } 
+                else {
+                    var token = jwt.sign({
+                        email: email
+                    }, process.env.JWT_SECRET);
+
+                    return res.status(statusCode.SUCCESS).json({
+                        code: statusCode.SUCCESS,
+                        message: messageCode.SIGN_IN_SUCCESS,
+                        userIdx : rows[0].id,
+                        token: token
+                    });                                    
+                }
             }
         }
+        
     })
 })
 
