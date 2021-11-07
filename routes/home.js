@@ -15,7 +15,7 @@ router.get('/', async(req, res) => {
         } 
         else {
             resultCode = statusCode.SUCCESS;
-            message = messageCode.POST_SUCCESS;
+            message = messageCode.LIST_SUCCESS;
         }
         res.status(resultCode).json({
             code : resultCode,
