@@ -7,8 +7,7 @@ const connection = require('../modules/mysql');
 
 router.post('/post', upload.single('image'), async(req, res) => {
     const { writer, content, price, productname, min, current, ask, notice, image } = req.body;
-    console.log = req.file;
-    const img = req.file.path; //이미지 경로
+    const img = req.file.location; //이미지 경로
     if (!writer || !content || !price || !productname || !min || !current || !ask || !notice) {
         return res.status(statusCode.BAD_REQUEST).send(messageCode.POST_FAIL);
     }
@@ -25,7 +24,6 @@ router.post('/post', upload.single('image'), async(req, res) => {
             resultCode = statusCode.SUCCESS;
             message = messageCode.POST_SUCCESS;
         }
-
         return res.status(resultCode).json({
             code : resultCode,
             message : message,
