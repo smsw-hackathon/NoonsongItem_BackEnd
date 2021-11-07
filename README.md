@@ -1,6 +1,11 @@
-# NoonsongItem_BackEnd! 
+# 💎NoonsongItem_BackEnd!💎 
 
-## 🛠 STACK & LIBRARY
+## ERD Diagaram
+<img src = "https://user-images.githubusercontent.com/50194490/140640203-587fc6ff-9b0a-47c4-bd2a-c29ad8ede18f.PNG">
+
+
+
+## 🛠 STACK & LIBRARY 🛠
 ```
 +-- aws-sdk@2.1023.0  
 +-- bcrypt@5.0.1  
