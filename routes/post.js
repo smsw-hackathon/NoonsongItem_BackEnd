@@ -22,7 +22,7 @@ router.post('/post', upload.single('image'), async(req, res) => {
             return res.status(resultCode).send(message);
         } else {
             resultCode = statusCode.SUCCESS;
-            message = messageCode.POST_SUCCESS;
+            message = messageCode.LIST_SUCCESS;
         }
         return res.status(resultCode).json({
             code : resultCode,
