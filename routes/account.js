@@ -64,7 +64,7 @@ router.post('/signin', async(req, res) => {
                     return res.status(statusCode.SUCCESS).json({
                         code: statusCode.SUCCESS,
                         message: messageCode.SIGN_IN_SUCCESS,
-                        userIdx : rows[0].id,
+                        userIdx : rows[0].userid,
                         token: token
                     });                                    
                 }
